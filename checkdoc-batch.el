@@ -18,8 +18,20 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (defvar jka-compr-inhibit)
 (defvar checkdoc-diagnostic-buffer)
+
+(defgroup checkdoc-batch nil
+  "Run `checkdoc' on command line arguments."
+  :group 'lisp)
+
+(defcustom checkdoc-batch-ignored
+  '("-autoloads\\.el\\'" "-pkg\\.el\\'")
+  "Specify patterns of file names that should be ignored."
+  :type '(repeat (regexp :tag "Pattern"))
+  :group 'checkdoc-batch)
 
 (defun checkdoc-batch ()
   "Run `checkdoc' on the files remaining on the command line."
@@ -39,9 +51,12 @@
           (require 'checkdoc)
           (require 'cl-lib)
           (while command-line-args-left
-            (let
+            (when-let*
                 ((source
                   (car command-line-args-left))
+                 ((cl-notany (lambda (regexp)
+                               (string-match regexp source))
+                             checkdoc-batch-ignored))
                  (process-default-directory default-directory))
               (with-temp-buffer
                 (insert-file-contents source 'visit)
