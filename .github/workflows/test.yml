@@ -1,4 +1,4 @@
-name: CI Tests
+name: checkdoc-batch.el - CI Tests
 
 on:
   workflow_dispatch:
