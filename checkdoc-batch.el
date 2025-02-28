@@ -89,7 +89,10 @@
             (setq command-line-args-left (cdr command-line-args-left))))
       (setq command-line-args-left nil)
       (when (< 0 number-of-errors)
-        (error "There are %s checkdoc errors!" number-of-errors)))))
+        (error "There %s %s checkdoc error%s!"
+               (if (= 1 number-of-errors) "is" "are")
+               number-of-errors
+               (if (= 1 number-of-errors) "" "s"))))))
 
 (provide 'checkdoc-batch)
 ;;; checkdoc-batch.el ends here
