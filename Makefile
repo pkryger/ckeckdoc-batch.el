@@ -1,6 +1,7 @@
 export EMACS ?= $(shell command -v emacs 2>/dev/null)
 CASK_DIR := $(shell cask package-directory)
 
+.PHONY: cask-install
 cask-install:
 	cask install
 
