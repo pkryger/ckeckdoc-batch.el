@@ -1,8 +1,11 @@
 export EMACS ?= $(shell command -v emacs 2>/dev/null)
 CASK_DIR := $(shell cask package-directory)
 
-$(CASK_DIR): Cask
+cask-install:
 	cask install
+
+$(CASK_DIR): Cask
+	$(MAKE) cask-install
 	@touch $(CASK_DIR)
 
 .PHONY: cask
